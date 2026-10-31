@@ -8,7 +8,7 @@ Suíte de automação Front Web desenvolvida com **Playwright** e **TypeScript**
 
 * **Playwright** (Test Runner, Automação Web e Custom Fixtures)
 * **TypeScript** (Linguagem de programação)
-* **Node.js** (Ambiente de execução)
+* **Node.js** (Ambiente de execução - `>=18.0.0`)
 * **Allure Report** (Relatórios gerenciais avançados)
 * **GitHub Actions** (Pipeline de CI/CD com disparos parametrizados)
 
@@ -51,7 +51,7 @@ front-web-qa-challenge/
 
 ## 📋 Escopo Implementado (Matriz de Testes)
 
-A suíte cobre os cenários rigorosamente selecionados com base em risco e valor de negócio:
+A suíte cobre **9 casos de teste** rigorosamente selecionados com base em risco, valor de negócio e validações de engenharia de qualidade e CI:
 
 | ID | Jornada / Categoria | Descrição | Prioridade | Status |
 | --- | --- | --- | --- | --- |
@@ -103,9 +103,9 @@ O projeto conta com um cenário proposital de demonstração de falha (`CT-09` c
 
 ## ⚙️ Pré-requisitos e Instalação
 
-Certifique-se de ter instalado em sua máquina:
+Certifique-resulte de ter instalado em sua máquina:
 
-* **Node.js** (versão 18 ou superior recomendada)
+* **Node.js** (versão 18 ou superior recomendada - validada via `"engines"`)
 * **npm**
 
 ### Passo a passo para configurar o projeto:
@@ -130,36 +130,31 @@ npx playwright install
 
 ## 🚀 Instruções de Execução
 
-Você pode executar os testes de diferentes formas conforme a sua necessidade:
+Você pode executar os testes de forma rápida e prática utilizando os atalhos configurados no `package.json`:
 
 * **Executar todos os testes funcionais (ignorando o teste de falha proposital):**
   ```bash
-  npx playwright test --grep-invert "@falha"
+  npm run test:functional
   ```
 
-* **Executar com interface gráfica (Playwright UI):**
+* **Executar os testes em modo visual (headed):**
   ```bash
-  npx playwright test --ui
+  npm run test:headed
   ```
 
-* **Executar em um navegador específico (ex: Firefox):**
+* **Executar apenas os testes de regressão:**
   ```bash
-  npx playwright test --project=firefox
+  npm run test:regression
   ```
 
-* **Executar na resolução Mobile (Pixel 5 / CT-06):**
+* **Executar apenas os testes Smoke:**
   ```bash
-  npx playwright test --project=mobile-chrome
+  npm run test:smoke
   ```
 
-* **Executar testes filtrando por tags:**
+* **Executar exclusivamente o teste de demonstração de falha (CT-09):**
   ```bash
-  npx playwright test --grep "@regressao"
-  ```
-
-* **Executar exclusivamente o teste de demonstração de falha:**
-  ```bash
-  npx playwright test --grep "@falha"
+  npm run test:failure-demo
   ```
 
 ---
@@ -186,15 +181,11 @@ O projeto está configurado para gerar relatórios detalhados após cada execuç
   ```
 
 * **Relatório Avançado com Allure Report (Destaque):**
-  O projeto conta com integração ao Allure para um painel gerencial rico em gráficos, métricas e histórico de execução:
-  1. Gerar os resultados do Allure:
-     ```bash
-     npx allure generate allure-results --clean -o allure-report
-     ```
-  2. Abrir o dashboard interativo:
-     ```bash
-     npx allure open allure-report
-     ```
+  O projeto conta com integração ao Allure para um painel gerencial rico em gráficos, métricas e histórico de execução. Você pode gerar e abrir com um único comando:
+  ```bash
+  npm run report:ci
+  ```
+  *(Ou separadamente via `npm run allure:generate` e `npm run allure:open`).*
 
 * **Evidências em caso de falha:**
   O framework captura automaticamente **Screenshots**, **Traces** e **Vídeos** apenas quando um teste falha (`retain-on-failure`), otimizando o armazenamento e facilitando o diagnóstico local e na pipeline.
