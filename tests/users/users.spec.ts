@@ -40,6 +40,7 @@ const invalidPasswords = [
 
 for (const pass of invalidPasswords) {
     test(`CT-03.X: Validar erro de senha (${pass.descricao}) @negativo @regressao`, async ({ page }) => {
+        // Preenche dados incluindo a senha
         await usersPage.nameInput.fill('QA Teste');
         await usersPage.emailInput.fill('teste@qa.com');
         await usersPage.passwordInput.fill(pass.valor);
@@ -52,3 +53,24 @@ for (const pass of invalidPasswords) {
         await expect(page.getByTestId('error-password')).toHaveText('Password must be at least 8 characters');
     });
 }
+
+test('CT-04: Edição de Usuário Existente @p0 @regressao @critico', async ({ page }) => {
+    // Clica no botão de edição do primeiro usuário da tabela
+    await usersPage.clickEditFirstUser();
+
+    // Altera os dados cadastrais no modal de edição
+    await usersPage.fillEditUser('Alice Johnson Atualizada', 'alice.atualizada@example.com');
+    await usersPage.clickConfirmEdit();
+
+    // Valida se os dados atualizados refletem corretamente na tabela principal
+    await expect(page.getByText('Alice Johnson Atualizada')).toBeVisible();
+    await expect(page.getByText('alice.atualizada@example.com')).toBeVisible();
+});
+
+test('CT-05: Exclusão de Usuário @p0 @regressao @critico', async ({ page }) => {
+    // Realiza a exclusão do primeiro registro da tabela
+    await usersPage.clickDeleteFirstUser();
+
+    // Valida que o registro excluído deixa de ser exibido na listagem principal
+    await expect(page.getByText('Alice Johnson Atualizada')).not.toBeVisible();
+});

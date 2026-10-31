@@ -9,6 +9,11 @@ export class UsersPage {
     readonly emailInput: Locator;
     readonly passwordInput: Locator;
     readonly termsCheckbox: Locator;
+    readonly editFirstUserButton: Locator;
+    readonly editNameInput: Locator;
+    readonly editEmailInput: Locator;
+    readonly confirmEditButton: Locator;
+    readonly deleteFirstUserButton: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -21,6 +26,14 @@ export class UsersPage {
         this.emailInput = page.getByTestId('input-email');
         this.passwordInput = page.getByTestId('input-password');
         this.termsCheckbox = page.getByTestId('check-terms');
+
+        // Mapeamento dos elementos do modal de edição 
+        this.editFirstUserButton = page.getByTestId('edit-1');
+        this.editNameInput = page.getByTestId('edit-name-input');
+        this.editEmailInput = page.getByTestId('edit-email-input');
+        this.confirmEditButton = page.getByTestId('modal-confirm');
+        this.deleteFirstUserButton = page.getByTestId('delete-1');
+
     }
 
     async goto() {
@@ -45,5 +58,25 @@ export class UsersPage {
         await this.emailInput.fill(email);
         await this.passwordInput.fill(password);
         await this.termsCheckbox.check();
+    }
+
+    async clickEditFirstUser() {
+        await this.editFirstUserButton.click();
+    }
+    async fillEditUser(name: string, email: string) {
+        await this.editNameInput.click();
+        await this.editNameInput.clear();
+        await this.editNameInput.fill(name);
+
+        await this.editEmailInput.click();
+        await this.editEmailInput.clear();
+        await this.editEmailInput.fill(email);
+    }
+
+    async clickConfirmEdit() {
+        await this.confirmEditButton.click();
+    }
+    async clickDeleteFirstUser() {
+        await this.deleteFirstUserButton.click();
     }
 }
