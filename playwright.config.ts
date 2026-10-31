@@ -26,8 +26,8 @@ export default defineConfig({
 
   // Configuração dos relatórios de execução (HTML e JSON para evidências)
   reporter: [
-    ['html', { outputFolder: 'playwright-report', open: 'never' }],
-    ['json', { outputFile: 'test-results/results.json' }]
+    ['html'],
+    ['allure-playwright']
   ],
 
   // Configurações globais para todos os projetos/navegadores

@@ -1,21 +1,22 @@
 # Front Web QA Challenge
 
-Suíte de automação Front Web desenvolvida com **Playwright** e **TypeScript** para atender aos requisitos do desafio técnico de engenharia de qualidade. O projeto foca em arquitetura modular baseada no padrão direto dentro de `src/`, cobertura de fluxos críticos de usuários, formulários, componentes dinâmicos, responsividade mobile e validações de acessibilidade. Conta com execução multiplataforma, integração contínua via GitHub Actions, relatórios detalhados e captura automática de evidências.
+Suíte de automação Front Web desenvolvida com **Playwright** e **TypeScript** para atender aos requisitos do desafio técnico de engenharia de qualidade. O projeto foca em arquitetura modular avançada utilizando o padrão **Page Object Model (POM)**, **Custom Fixtures** para injeção limpa de dependência, cobertura de fluxos críticos de usuários, formulários, componentes dinâmicos, responsividade mobile e validações de acessibilidade. Conta com execução multiplataforma, integração contínua interativa via GitHub Actions, relatórios detalhados em HTML e **Allure Report**, além de captura automática de evidências.
 
 ---
 
 ## 🚀 Tecnologias Utilizadas
 
-* **Playwright** (Test Runner e Automação Web)
+* **Playwright** (Test Runner, Automação Web e Custom Fixtures)
 * **TypeScript** (Linguagem de programação)
 * **Node.js** (Ambiente de execução)
-* **GitHub Actions** (Pipeline de CI/CD)
+* **Allure Report** (Relatórios gerenciais avançados)
+* **GitHub Actions** (Pipeline de CI/CD com disparos parametrizados)
 
 ---
 
 ## 📂 Arquitetura do Projeto
 
-A estrutura segue rigorosamente o modelo sugerido no desafio para garantir baixo acoplamento e alta organização:
+A estrutura segue rigorosamente o modelo sugerido no desafio, organizando responsabilidades em camadas desacopladas:
 
 ```text
 front-web-qa-challenge/
@@ -28,17 +29,15 @@ front-web-qa-challenge/
 │   └── matriz-de-cenarios.md
 ├── src/
 │   ├── fixtures/
+│       └── baseFixtures.ts    # Configuração de Custom Fixtures do Playwright
 │   ├── pages/
-│       └── UsersPage.ts       # Mapeamento e ações de página
+│       └── UsersPage.ts       # Mapeamento e ações de página (POM)
 │   ├── data/
+│       └── usersData.ts       # Massa de dados centralizada e parametrizada
 │   └── utils/
 ├── tests/
 │   ├── users/
-│       └── users.spec.ts      # Casos de teste automatizados (CT-01 a CT-08)
-│   ├── forms/
-│   ├── dynamic/
-│   ├── accessibility/
-│   └── responsive/
+│       └── users.spec.ts      # Casos de teste automatizados injetados via fixtures
 ├── test-assets/
 ├── .env.example
 ├── .gitignore
@@ -46,14 +45,13 @@ front-web-qa-challenge/
 ├── playwright.config.ts
 ├── README.md
 └── tsconfig.json
-
 ```
 
 ---
 
 ## 📋 Escopo Implementado (Matriz de Testes)
 
-A suíte cobre **8 casos de teste** rigorosamente selecionados com base em risco e valor de negócio:
+A suíte cobre os cenários rigorosamente selecionados com base em risco e valor de negócio:
 
 | ID | Jornada / Categoria | Descrição | Prioridade | Status |
 | --- | --- | --- | --- | --- |
@@ -65,6 +63,7 @@ A suíte cobre **8 casos de teste** rigorosamente selecionados com base em risco
 | **CT-06** | Responsividade Mobile | Execução da suíte em resolução emulada (Pixel 5) via projeto Playwright | **P1** | Implementado |
 | **CT-07** | Elementos Dinâmicos | Validação de carregamento assíncrono (*Delayed Loading*) e controles de visibilidade | **P1** | Implementado |
 | **CT-08** | Acessibilidade (A11Y) | Validação de nomes acessíveis, atributos ARIA e foco por teclado | **P2** | Implementado |
+| **CT-09** | Validação de Pipeline | Cenário intencional de falha (`@falha`) para evidências de CI, relatórios e traces | **P2** | Implementado |
 
 ---
 
@@ -74,12 +73,6 @@ Para atender ao requisito de acessibilidade do desafio (**CT-08**), optou-se por
 
 * **Navegação por Teclado e Foco:** Garantir que os controles principais e botões de ação recebem foco corretamente e são totalmente interativos sem o uso de mouse.
 * **Nomes Acessíveis e Visibilidade:** Validar a presença e a legibilidade visual dos elementos essenciais para usuários de tecnologias assistivas.
-
-## 🧪 Cenário de Demonstração de Falha (Evidências de CI)
-
-O projeto conta com um cenário proposital de demonstração de falha (`CT-09` com a tag `@falha`) criado especificamente para validar o comportamento da suíte e do pipeline de CI em caso de erros:
-* **Objetivo:** Forçar uma falha controlada para comprovar que o relatório HTML, as capturas de tela (*screenshots*), os vídeos e os rastreamentos (*traces*) são anexados e salvos corretamente pelo Playwright e pelo GitHub Actions.
-
 
 ### Investigação Técnica e Decisão Arquitetural
 
@@ -101,6 +94,13 @@ A validação automatizada cobre uma camada essencial de experiência de navega�
 
 ---
 
+## 🧪 Cenário de Demonstração de Falha (Evidências de CI)
+
+O projeto conta com um cenário proposital de demonstração de falha (`CT-09` com a tag `@falha`) criado especificamente para validar o comportamento da suíte e do pipeline de CI em caso de erros:
+* **Objetivo:** Forçar uma falha controlada para comprovar que o relatório HTML, as capturas de tela (*screenshots*), os vídeos e os rastreamentos (*traces*) são anexados e salvos corretamente pelo Playwright e pelo GitHub Actions.
+
+---
+
 ## ⚙️ Pré-requisitos e Instalação
 
 Certifique-se de ter instalado em sua máquina:
@@ -112,38 +112,32 @@ Certifique-se de ter instalado em sua máquina:
 
 1. Clone o repositório:
 ```bash
-git clone [https://github.com/seu-usuario/front-web-qa-challenge.git](https://github.com/seu-usuario/front-web-qa-challenge.git)
+git clone https://github.com/seu-usuario/front-web-qa-challenge.git
 cd front-web-qa-challenge
-
 ```
-
 
 2. Instale as dependências do projeto:
 ```bash
 npm install
-
 ```
-
 
 3. Instale os binários dos navegadores do Playwright:
 ```bash
 npx playwright install
-
 ```
 
-
-
 ---
+
 ## 🚀 Instruções de Execução
 
 Você pode executar os testes de diferentes formas conforme a sua necessidade:
 
-* **Executar todos os testes em modo headless (padrão):**
+* **Executar todos os testes funcionais (ignorando o teste de falha proposital):**
   ```bash
-  npx playwright test
+  npx playwright test --grep-invert "@falha"
   ```
 
-* **Executar os testes com interface gráfica (Playwright UI):**
+* **Executar com interface gráfica (Playwright UI):**
   ```bash
   npx playwright test --ui
   ```
@@ -163,47 +157,55 @@ Você pode executar os testes de diferentes formas conforme a sua necessidade:
   npx playwright test --grep "@regressao"
   ```
 
-### Execução com Teste de Demonstração de Falha (Evidências de CI)
-
-O projeto conta com um cenário proposital de demonstração de falha (`CT-09` com a tag `@falha`) criado para validar o comportamento da suíte e do relatório em caso de erros:
-
-* **Executar a suíte padrão (ignorando o teste de falha proposital):**
-  Para rodar apenas os testes funcionais normais no dia a dia:
-  ```bash
-  npx playwright test --grep-invert "@falha"
-  ```
-
 * **Executar exclusivamente o teste de demonstração de falha:**
-  Para testar a geração de evidências e ver o relatório de falha em ação:
   ```bash
   npx playwright test --grep "@falha"
   ```
+
+---
+
+## 🌐 Execução na Pipeline (GitHub Actions)
+
+A pipeline automatizada (`.github/workflows/tests.yml`) executa a cada `push` ou `pull_request` utilizando **3 workers em paralelo** para otimizar o tempo de execução. 
+
+Ela também conta com suporte a **Disparo Manual (`workflow_dispatch`)**, permitindo selecionar diretamente pelo painel do GitHub o modo de execução desejado:
+* **`normal`**: Executa todos os testes da suíte.
+* **`sem-falha`**: Executa a suíte padrão ignorando o teste intencional de falha (`--grep-invert "@falha"`).
+* **`apenas-falha`**: Executa exclusivamente o cenário de demonstração de falha (`--grep "@falha"`) para validação rápida de artefatos e relatórios.
+
 ---
 
 ## 📊 Relatórios e Evidências
 
-O projeto está configurado para gerar relatórios detalhados após cada execução:
+O projeto está configurado para gerar relatórios detalhados após cada execução, oferecendo duas opções robustas de visualização:
 
-* **Relatório HTML:**
-Para abrir o relatório interativo gerado automaticamente:
-```bash
-npx playwright show-report
+* **Relatório Padrão HTML do Playwright:**
+  Para abrir o relatório interativo nativo:
+  ```bash
+  npx playwright show-report
+  ```
 
-```
-
+* **Relatório Avançado com Allure Report (Destaque):**
+  O projeto conta com integração ao Allure para um painel gerencial rico em gráficos, métricas e histórico de execução:
+  1. Gerar os resultados do Allure:
+     ```bash
+     npx allure generate allure-results --clean -o allure-report
+     ```
+  2. Abrir o dashboard interativo:
+     ```bash
+     npx allure open allure-report
+     ```
 
 * **Evidências em caso de falha:**
-O framework captura automaticamente **Screenshots**, **Traces** e **Vídeos** apenas quando um teste falha (`retain-on-failure`), otimizando o armazenamento e facilitando o diagnóstico na pipeline.
+  O framework captura automaticamente **Screenshots**, **Traces** e **Vídeos** apenas quando um teste falha (`retain-on-failure`), otimizando o armazenamento e facilitando o diagnóstico local e na pipeline.
 
 ---
 
 ## 🤖 Uso de Inteligência Artificial
 
 Este projeto contou com o apoio de Inteligência Artificial como assistente de colaboração técnica para:
-
-* Estruturação inicial da arquitetura modular dentro da pasta `src/`.
+* Estruturação inicial da arquitetura modular baseada em POM e Custom Fixtures.
 * Refinamento dos seletores baseados em `data-testid`.
 * Discussão de decisões arquiteturais relativas ao tratamento de componentes dinâmicos e à estratégia de acessibilidade com o Axe-Core.
 
 Todo o código gerado foi rigorosamente revisado, testado, validado e integrado manualmente pelo autor, mantendo total responsabilidade técnica pela solução final entregue.
----
