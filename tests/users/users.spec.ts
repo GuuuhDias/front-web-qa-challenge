@@ -19,8 +19,9 @@ test('CT-02: Criação de Novo Utilizador com Sucesso @p0 @regressao @critico', 
     await usersPage.clickAddUser();
 
     // Valida a mensagem de sucesso com o data-testid dedicado
-    await expect(page.getByTestId('form-success')).toBeVisible();
-    await expect(page.getByTestId('form-success')).toHaveText('Registration successful! Welcome aboard.');
+    const successMessage = page.getByTestId('form-success');
+    await expect(successMessage).toBeVisible();
+    await expect(successMessage).toHaveText('Registration successful! Welcome aboard.');
 });
 
 test('CT-03: Validação de Campos Obrigatórios e Termos @negativo @regressao', async ({ page }) => {
@@ -40,7 +41,7 @@ const invalidPasswords = [
 
 for (const pass of invalidPasswords) {
     test(`CT-03.X: Validar erro de senha (${pass.descricao}) @negativo @regressao`, async ({ page }) => {
-        // Preenche dados incluindo a senha
+        // Preenche dados incluindo a senha usando os locators do Page Object
         await usersPage.nameInput.fill('QA Teste');
         await usersPage.emailInput.fill('teste@qa.com');
         await usersPage.passwordInput.fill(pass.valor);
@@ -49,8 +50,9 @@ for (const pass of invalidPasswords) {
         await usersPage.clickAddUser();
 
         // Valida a exibição do erro de senha de forma robusta
-        await expect(page.getByTestId('error-password')).toBeVisible();
-        await expect(page.getByTestId('error-password')).toHaveText('Password must be at least 8 characters');
+        const errorPassword = page.getByTestId('error-password');
+        await expect(errorPassword).toBeVisible();
+        await expect(errorPassword).toHaveText('Password must be at least 8 characters');
     });
 }
 
@@ -80,11 +82,8 @@ test('CT-07: Validação de Conteúdo Dinâmico e Estados Assíncronos @regressa
     await usersPage.loadContentButton.click();
     await expect(usersPage.delayedContentBox).toBeVisible();
 
-    // 2. Testa o controlo de ocultação (Hide Element)
-    const hideButton = page.getByRole('button', { name: 'Hide Element' }); // ou usersPage.hideElementButton
-
-    // Clica para esconder o elemento e valida que ele desaparece
-    await hideButton.click();
+    // 2. Testa o controlo de ocultação utilizando o elemento do Page Object
+    await usersPage.hideElementButton.click();
     await expect(usersPage.visibleElement).not.toBeVisible();
 });
 

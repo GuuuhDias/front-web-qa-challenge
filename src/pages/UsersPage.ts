@@ -25,29 +25,29 @@ export class UsersPage {
         this.userTable = page.getByTestId('data-table');
         this.searchInput = page.getByTestId('table-search');
 
-        // Seletores dos campos do formulário de registo
+        // Seletores dos campos do formulário de registo[cite: 6]
         this.nameInput = page.getByTestId('input-fullname');
         this.emailInput = page.getByTestId('input-email');
         this.passwordInput = page.getByTestId('input-password');
         this.termsCheckbox = page.getByTestId('check-terms');
 
-        // Mapeamento dos elementos do modal de edição 
+        // Mapeamento dos elementos do modal de edição[cite: 6]
         this.editFirstUserButton = page.getByTestId('edit-1');
         this.editNameInput = page.getByTestId('edit-name-input');
         this.editEmailInput = page.getByTestId('edit-email-input');
         this.confirmEditButton = page.getByTestId('modal-confirm');
         this.deleteFirstUserButton = page.getByTestId('delete-1');
 
-        // Mapeamento dos elementos dinamicos
+        // Mapeamento dos elementos dinamicos[cite: 6]
         this.loadContentButton = page.getByTestId('load-delayed-btn');
-        this.delayedContentBox = page.getByTestId('loaded-data')
+        this.delayedContentBox = page.getByTestId('loaded-data');
         this.hideElementButton = page.getByTestId('hide-btn');
         this.visibleElement = page.getByText('I\'m visible!');
     }
 
     async goto() {
         await this.page.goto('/');
-        // Tratamento automático do banner de cookies
+        // Tratamento automático do banner de cookies[cite: 6]
         const acceptButton = this.page.getByRole('button', { name: 'Accept All' });
         if (await acceptButton.isVisible()) {
             await acceptButton.click();
@@ -72,6 +72,7 @@ export class UsersPage {
     async clickEditFirstUser() {
         await this.editFirstUserButton.click();
     }
+
     async fillEditUser(name: string, email: string) {
         await this.editNameInput.click();
         await this.editNameInput.clear();
@@ -85,6 +86,7 @@ export class UsersPage {
     async clickConfirmEdit() {
         await this.confirmEditButton.click();
     }
+
     async clickDeleteFirstUser() {
         await this.deleteFirstUserButton.click();
     }
