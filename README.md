@@ -75,6 +75,12 @@ Para atender ao requisito de acessibilidade do desafio (**CT-08**), optou-se por
 * **Navegação por Teclado e Foco:** Garantir que os controles principais e botões de ação recebem foco corretamente e são totalmente interativos sem o uso de mouse.
 * **Nomes Acessíveis e Visibilidade:** Validar a presença e a legibilidade visual dos elementos essenciais para usuários de tecnologias assistivas.
 
+## 🧪 Cenário de Demonstração de Falha (Evidências de CI)
+
+O projeto conta com um cenário proposital de demonstração de falha (`CT-09` com a tag `@falha`) criado especificamente para validar o comportamento da suíte e do pipeline de CI em caso de erros:
+* **Objetivo:** Forçar uma falha controlada para comprovar que o relatório HTML, as capturas de tela (*screenshots*), os vídeos e os rastreamentos (*traces*) são anexados e salvos corretamente pelo Playwright e pelo GitHub Actions.
+
+
 ### Investigação Técnica e Decisão Arquitetural
 
 Durante a fase de investigações, tentou-se integrar uma auditoria automatizada completa utilizando o `@axe-core/playwright`. No entanto, constatou-se que a aplicação-alvo (`PlayLab`) apresenta múltiplos desvios estruturais em relação às diretrizes WCAG (como problemas de contraste de cores e ausência de atributos ARIA em componentes específicos).
@@ -128,47 +134,50 @@ npx playwright install
 
 
 ---
-
 ## 🚀 Instruções de Execução
 
 Você pode executar os testes de diferentes formas conforme a sua necessidade:
 
 * **Executar todos os testes em modo headless (padrão):**
-```bash
-npx playwright test
-
-```
-
+  ```bash
+  npx playwright test
+  ```
 
 * **Executar os testes com interface gráfica (Playwright UI):**
-```bash
-npx playwright test --ui
-
-```
-
+  ```bash
+  npx playwright test --ui
+  ```
 
 * **Executar em um navegador específico (ex: Firefox):**
-```bash
-npx playwright test --project=firefox
-
-```
-
+  ```bash
+  npx playwright test --project=firefox
+  ```
 
 * **Executar na resolução Mobile (Pixel 5 / CT-06):**
-```bash
-npx playwright test --project=mobile-chrome
-
-```
-
+  ```bash
+  npx playwright test --project=mobile-chrome
+  ```
 
 * **Executar testes filtrando por tags:**
-```bash
-npx playwright test --grep "@regressao"
+  ```bash
+  npx playwright test --grep "@regressao"
+  ```
 
-```
+### Execução com Teste de Demonstração de Falha (Evidências de CI)
 
+O projeto conta com um cenário proposital de demonstração de falha (`CT-09` com a tag `@falha`) criado para validar o comportamento da suíte e do relatório em caso de erros:
 
+* **Executar a suíte padrão (ignorando o teste de falha proposital):**
+  Para rodar apenas os testes funcionais normais no dia a dia:
+  ```bash
+  npx playwright test --grep-invert "@falha"
+  ```
 
+* **Executar exclusivamente o teste de demonstração de falha:**
+  Para testar a geração de evidências e ver o relatório de falha em ação:
+  ```bash
+  npx playwright test --grep "@falha"
+  ```
 ---
 
 ## 📊 Relatórios e Evidências

@@ -100,3 +100,12 @@ test('CT-08: Validação de Acessibilidade e Foco por Teclado @acessibilidade @r
     await expect(usersPage.nameInput).toBeVisible();
     await expect(usersPage.emailInput).toBeVisible();
 });
+
+test('CT-09: [DEMO] Validação intencional de falha para evidências de CI @falha', async ({ page }) => {
+    await page.goto('/');
+
+    // Tentativa proposital de encontrar um elemento inexistente para forçar a falha
+    const elementoInexistente = page.locator('[data-testid="usuario-fantasma-inexistente"]');
+
+    await expect(elementoInexistente).toBeVisible({ timeout: 3 });
+});
