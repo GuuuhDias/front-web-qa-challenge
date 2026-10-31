@@ -1,8 +1,3 @@
-Aqui está o seu ficheiro `README.md` completo, otimizado e traduzido integralmente para o padrão do **português brasileiro (pt-BR)**. Ele consolida a nossa arquitetura pragmática, a estrutura com a pasta `src/`, os testes implementados e a nossa estratégia de acessibilidade.
-
----
-
-```markdown
 # Front Web QA Challenge
 
 Suíte de automação Front Web desenvolvida com **Playwright** e **TypeScript** para atender aos requisitos do desafio técnico de engenharia de qualidade. O projeto foca em arquitetura modular baseada no padrão direto dentro de `src/`, cobertura de fluxos críticos de usuários, formulários, componentes dinâmicos, responsividade mobile e validações de acessibilidade. Conta com execução multiplataforma, integração contínua via GitHub Actions, relatórios detalhados e captura automática de evidências.
