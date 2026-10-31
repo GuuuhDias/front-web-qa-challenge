@@ -14,6 +14,10 @@ export class UsersPage {
     readonly editEmailInput: Locator;
     readonly confirmEditButton: Locator;
     readonly deleteFirstUserButton: Locator;
+    readonly loadContentButton: Locator;
+    readonly delayedContentBox: Locator;
+    readonly hideElementButton: Locator;
+    readonly visibleElement: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -34,6 +38,11 @@ export class UsersPage {
         this.confirmEditButton = page.getByTestId('modal-confirm');
         this.deleteFirstUserButton = page.getByTestId('delete-1');
 
+        // Mapeamento dos elementos dinamicos
+        this.loadContentButton = page.getByTestId('load-delayed-btn');
+        this.delayedContentBox = page.getByTestId('loaded-data')
+        this.hideElementButton = page.getByTestId('hide-btn');
+        this.visibleElement = page.getByText('I\'m visible!');
     }
 
     async goto() {

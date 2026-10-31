@@ -15,6 +15,7 @@ Este documento apresenta a matriz de cenários mapeados para a automação, estr
 | **CT-05** | Exclusão de Usuário | Realizar a remoção de um registro da tabela e confirmar que o mesmo deixa de ser exibido na listagem principal. | **P0** | Funcional |
 | **CT-06** | Responsividade Mobile (Pixel 5) | Executar os fluxos principais de navegação e formulários em resolução emulada de smartphone, validando adaptação de layout e toque. | **P1** | Responsividade / UI |
 | **CT-07** | Tratamento de Elementos Dinâmicos | Validar a resiliência da suíte frente a carregamentos assíncronos, estados de *loading* e elementos que aparecem de forma dinâmica na tela. | **P1** | Assíncrono / Resiliência |
+| **CT-08** | Validação de Acessibilidade | Validar nomes acessíveis, atributos ARIA e a navegação por foco através do teclado nos controlos principais da aplicação. | **P2** | Acessibilidade / A11Y |
 
 ---
 

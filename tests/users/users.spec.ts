@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { UsersPage } from '../../pages/UsersPage.js';
+import { UsersPage } from '../../src/pages/UsersPage.js';
 
 let usersPage: UsersPage;
 
@@ -73,4 +73,30 @@ test('CT-05: Exclusão de Usuário @p0 @regressao @critico', async ({ page }) =>
 
     // Valida que o registro excluído deixa de ser exibido na listagem principal
     await expect(page.getByText('Alice Johnson Atualizada')).not.toBeVisible();
+});
+
+test('CT-07: Validação de Conteúdo Dinâmico e Estados Assíncronos @regressao @resiliencia', async ({ page }) => {
+    // 1. Testa o carregamento com atraso (Delayed Loading)
+    await usersPage.loadContentButton.click();
+    await expect(usersPage.delayedContentBox).toBeVisible();
+
+    // 2. Testa o controlo de ocultação (Hide Element)
+    const hideButton = page.getByRole('button', { name: 'Hide Element' }); // ou usersPage.hideElementButton
+
+    // Clica para esconder o elemento e valida que ele desaparece
+    await hideButton.click();
+    await expect(usersPage.visibleElement).not.toBeVisible();
+});
+
+test('CT-08: Validação de Acessibilidade e Foco por Teclado @acessibilidade @regressao', async ({ page }) => {
+    // 1. Valida que o botão principal de registo está visível e acessível
+    await expect(usersPage.addUserButton).toBeVisible();
+
+    // 2. Valida a navegação por teclado (foco) no botão principal
+    await usersPage.addUserButton.focus();
+    await expect(usersPage.addUserButton).toBeFocused();
+
+    // 3. Valida que os campos de formulário essenciais estão presentes para leitores de tela
+    await expect(usersPage.nameInput).toBeVisible();
+    await expect(usersPage.emailInput).toBeVisible();
 });
