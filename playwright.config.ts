@@ -22,7 +22,7 @@ export default defineConfig({
   retries: 1,
 
   // Número de workers paralelos na máquina local
-  workers: undefined,
+  workers: 3,
 
   // Configuração dos relatórios de execução (HTML e JSON para evidências)
   reporter: [
