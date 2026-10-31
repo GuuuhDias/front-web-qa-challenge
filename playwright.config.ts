@@ -6,10 +6,10 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   // Diretório onde estão os nossos testes
   testDir: './tests',
-  
+
   // Tempo máximo que cada teste pode durar (30 segundos)
   timeout: 30 * 1000,
-  
+
   // Tempo limite para cada asserção (expect)
   expect: {
     timeout: 5000
@@ -18,7 +18,7 @@ export default defineConfig({
   // Executa os testes em paralelo para maior velocidade
   fullyParallel: true,
 
-// Evita que testes falhados passem (1 retry local)
+  // Evita que testes falhados passem (1 retry local)
   retries: 1,
 
   // Número de workers paralelos na máquina local

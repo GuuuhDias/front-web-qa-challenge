@@ -31,17 +31,24 @@ test('CT-03: Validação de Campos Obrigatórios e Termos @negativo @regressao',
     await expect(page.getByText('You must accept the terms')).toBeVisible();
 });
 
-test('CT-03.1: Validar erro de senha com menos de 8 caracteres @negativo @regressao', async ({ page }) => {
-    // Preenche os dados com uma senha inválida (menos de 8 caracteres)
-    await usersPage.nameInput.fill('QA Teste');
-    await usersPage.emailInput.fill('teste@qa.com');
-    await usersPage.passwordInput.fill('123'); // senha curta
-    await usersPage.termsCheckbox.check();
+// Cenários parametrizados para validação de senhas inválidas
+const invalidPasswords = [
+    { descricao: 'senha com 3 dígitos', valor: '123' },
+    { descricao: 'senha com 6 dígitos', valor: '123456' },
+    { descricao: 'senha com 7 dígitos', valor: '1234567' }
+];
 
-    // Tenta submeter o formulário
-    await usersPage.clickAddUser();
+for (const pass of invalidPasswords) {
+    test(`CT-03.X: Validar erro de senha (${pass.descricao}) @negativo @regressao`, async ({ page }) => {
+        await usersPage.nameInput.fill('QA Teste');
+        await usersPage.emailInput.fill('teste@qa.com');
+        await usersPage.passwordInput.fill(pass.valor);
+        await usersPage.termsCheckbox.check();
 
-    // Valida a exibição do elemento de erro da senha de forma robusta
-    await expect(page.getByTestId('error-password')).toBeVisible();
-    await expect(page.getByTestId('error-password')).toHaveText('Password must be at least 8 characters');
-});
+        await usersPage.clickAddUser();
+
+        // Valida a exibição do erro de senha de forma robusta
+        await expect(page.getByTestId('error-password')).toBeVisible();
+        await expect(page.getByTestId('error-password')).toHaveText('Password must be at least 8 characters');
+    });
+}
