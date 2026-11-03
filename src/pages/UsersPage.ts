@@ -28,7 +28,7 @@ export class UsersPage {
         this.nameInput = page.getByTestId('input-fullname');
         this.emailInput = page.getByTestId('input-email');
         this.passwordInput = page.getByTestId('input-password');
-        this.termsCheckbox = page.getByTestId('check-terms');
+        this.termsCheckbox = page.getByRole('checkbox', { name: /terms/i })
 
         this.editFirstUserButton = page.getByTestId('edit-1');
         this.editNameInput = page.getByTestId('edit-name-input');
