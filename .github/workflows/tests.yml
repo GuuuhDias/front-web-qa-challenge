@@ -28,14 +28,17 @@ jobs:
       run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-    # 1. Testes Smoke (Fumaça)
+      # 1. Roda apenas se o input escolhido for 'smoke'
     - name: Executar Testes Smoke
-      run: npx playwright test --grep "@smoke" --workers=3
-      # 2. Testes de Regressão (Funcionais sem a falha)
+      if: github.event.inputs.execucao == 'smoke'
+      run: npm run test:smoke
+      # 2. Roda apenas se o input escolhido for 'regressao' (padrão)
     - name: Executar Regressão
+      if: github.event.inputs.execucao == 'regressao' || github.event.inputs.execucao == ''
       run: npm run test:functional
-      # 3. Teste Intencional de Falha (Demonstração de CI)
+      # 3. Roda apenas se o input escolhido for 'falha'
     - name: Executar Teste de Falha (Demo)
+      if: github.event.inputs.execucao == 'falha'
       run: npm run test:failure-demo
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
