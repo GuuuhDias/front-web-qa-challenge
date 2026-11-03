@@ -7,12 +7,12 @@ on:
       modo_teste:
         description: 'Escolha o modo de execução dos testes'
         required: true
-        default: 'normal'
+        default: 'regressao'
         type: choice
         options:
-          - normal           # Roda todos (com 3 workers)
-          - sem-falha        # Exclui o teste de falha (--grep-invert "@falha")
-          - apenas-falha     # Roda apenas o teste de falha (--grep "@falha")
+          - smoke          # Roda apenas os testes de fumaça (@smoke)
+          - regressao      # Roda a regressão completa sem a falha (--grep-invert "@falha")
+          - falha          # Roda exclusivamente o teste de demonstração de falha (@falha)
   pull_request:
     branches: [ main, master ]
 jobs:
@@ -28,15 +28,15 @@ jobs:
       run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-    - name: Run Playwright tests (Sem o teste de falha)
-      if: ${{ github.event.inputs.modo_teste == 'sem-falha' || github.event.inputs.modo_teste == '' }}
-      run: npx playwright test --grep-invert "@falha" --workers=3
-    - name: Run Playwright tests (Modo Normal)
-      if: ${{ github.event.inputs.modo_teste == 'normal' }}
-      run: npx playwright test --workers=3
-    - name: Run Playwright tests (Apenas o teste de falha)
-      if: ${{ github.event.inputs.modo_teste == 'apenas-falha' }}
-      run: npx playwright test --grep "@falha" --workers=3
+    # 1. Testes Smoke (Fumaça)
+    - name: Executar Testes Smoke
+      run: npx playwright test --grep "@smoke" --workers=3
+      # 2. Testes de Regressão (Funcionais sem a falha)
+    - name: Executar Regressão
+      run: npm run test:functional
+      # 3. Teste Intencional de Falha (Demonstração de CI)
+    - name: Executar Teste de Falha (Demo)
+      run: npm run test:failure-demo
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:

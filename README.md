@@ -159,14 +159,13 @@ Você pode executar os testes de forma rápida e prática utilizando os atalhos 
 
 ---
 
-## 🌐 Execução na Pipeline (GitHub Actions)
+## 🚀 Execução via Pipeline (CI/CD)
 
-A pipeline automatizada (`.github/workflows/tests.yml`) executa a cada `push` ou `pull_request` utilizando **3 workers em paralelo** para otimizar o tempo de execução. 
+O projeto conta com execução automatizada e manual via GitHub Actions (`workflow_dispatch`). Na aba **Actions** do repositório, você pode disparar a esteira escolhendo entre três opções de execução com paralelismo otimizado (3 workers):
 
-Ela também conta com suporte a **Disparo Manual (`workflow_dispatch`)**, permitindo selecionar diretamente pelo painel do GitHub o modo de execução desejado:
-* **`normal`**: Executa todos os testes da suíte.
-* **`sem-falha`**: Executa a suíte padrão ignorando o teste intencional de falha (`--grep-invert "@falha"`).
-* **`apenas-falha`**: Executa exclusivamente o cenário de demonstração de falha (`--grep "@falha"`) para validação rápida de artefatos e relatórios.
+* **`smoke`**: Executa apenas os testes críticos de fumaça (`@smoke`).
+* **`regressao`**: Executa a suíte funcional completa ignorando o teste de falha (`--grep-invert "@falha"`).
+* **`falha`**: Executa exclusivamente o cenário de demonstração de falha (`@falha`) para validação de evidências e relatórios.
 
 ---
 
